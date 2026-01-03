@@ -12,7 +12,7 @@ export default function Navbar() {
                 </Link>
                 <div className="flex items-center gap-2">
 
-                    <Link href="/" className={buttonVariants({ variant: "ghost" })}>Home.</Link>
+                    <Link href="/" className={buttonVariants({ variant: "ghost" })}>Home</Link>
                     <Link href="/blog" className={buttonVariants({ variant: "ghost" })}>Blog</Link>
                     <Link href="/create" className={buttonVariants({ variant: "ghost" })}>Create</Link>
 
