@@ -1,8 +1,19 @@
+"use client"
+
 import Link from "next/link";
-import { buttonVariants } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { ThemeToggle } from "./theme-toggle";
+import { useConvexAuth } from "convex/react";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
+
+    const { isAuthenticated, isLoading } = useConvexAuth();
+
+    const router = useRouter()
+
     return (
         <nav className="w-full py-5 flex items-center justify-between">
 
@@ -20,8 +31,39 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-2">
-                <Link href="/auth/sign-up" className={buttonVariants()}>Sign up</Link>
-                <Link href="/auth/login" className={buttonVariants({ variant: "outline" })}>Login</Link>
+                {
+                    isLoading ? (
+                        <div className="w-8 h-8 animate-spin rounded-full border-b-2 border-gray-900"></div>
+                    ) : (
+                        isAuthenticated ? (
+                            // <div>
+
+                            // <Link href="/auth/sign-up" className={buttonVariants()}>Sign up</Link>
+                            // <Link href="/auth/login" className={buttonVariants({ variant: "outline" })}>Login</Link>
+                            // </div>
+                            <>
+                                <Link href="/auth/profile" className={buttonVariants()}>Profile</Link>
+                                <Button variant="outline" onClick={() => authClient.signOut({
+                                    fetchOptions: {
+                                        onSuccess: () => {
+                                            toast.success("You have been signed out")
+                                            router.push("/")
+                                        },
+                                        onError: (error) => {
+                                            toast.error(error.error.message)
+                                        }
+                                    }
+                                })}>Logout</Button>
+                            </>
+                        ) : (
+                            <>
+
+                                <Link href="/auth/sign-up" className={buttonVariants()}>Sign up</Link>
+                                <Link href="/auth/login" className={buttonVariants({ variant: "outline" })}>Login</Link>
+                            </>
+                        )
+                    )
+                }
 
                 <ThemeToggle />
 
