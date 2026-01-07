@@ -1,6 +1,29 @@
+'use client'
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
+import { postSchema } from "@/app/schemas/blog";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import z from "zod";
 
 export default function CreateRoute() {
+
+    const form = useForm({
+        resolver: zodResolver(postSchema),
+        defaultValues: {
+            title: "",
+            content: ""
+        }
+    })
+
+    function onSubmit(data: z.infer<typeof postSchema>) {
+        console.log(data)
+    }
+
     return (
         <div className="py-12 ">
             <div className="text-center mb-12">
@@ -14,9 +37,37 @@ export default function CreateRoute() {
                     <CardDescription>Create your own post ...</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form>
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <FieldGroup>
 
-                        
+                            <Controller name="title" control={form.control} render={({ field, fieldState }) => {
+                                return (
+                                    <Field>
+                                        <FieldLabel>Title</FieldLabel>
+                                        <Input aria-invalid={fieldState.invalid} placeholder="Enter the title" {...field} />
+                                        {fieldState.invalid && (
+                                            <FieldError errors={[fieldState.error]} />
+                                        )}
+
+                                    </Field>
+                                )
+                            }} />
+                            <Controller name="content" control={form.control} render={({ field, fieldState }) => {
+                                return (
+                                    <Field>
+                                        <FieldLabel>Content</FieldLabel>
+                                        <Textarea aria-invalid={fieldState.invalid} placeholder="Enter the content" {...field} />
+                                        {fieldState.invalid && (
+                                            <FieldError errors={[fieldState.error]} />
+                                        )}
+
+                                    </Field>
+                                )
+                            }} />
+
+                            <Button type="submit">Create Post</Button>
+                        </FieldGroup>
+
                     </form>
                 </CardContent>
             </Card>
