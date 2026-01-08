@@ -9,8 +9,20 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import z from "zod";
+import { useMutation } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
+import { useTransition } from "react";
+import { start } from "repl";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function CreateRoute() {
+
+    const [isPending, startTransition] = useTransition()
+    const router = useRouter()
+
+    const mutation = useMutation(api.post.createPost)
 
     const form = useForm({
         resolver: zodResolver(postSchema),
@@ -21,8 +33,20 @@ export default function CreateRoute() {
     })
 
     function onSubmit(data: z.infer<typeof postSchema>) {
-        console.log(data)
+
+        startTransition(() => {
+            mutation({
+                body: data.content,
+                title: data.title,
+            })
+            toast.success("Everything is ok")
+            router.push("/")
+        })
+
+
     }
+
+
 
     return (
         <div className="py-12 ">
@@ -65,8 +89,16 @@ export default function CreateRoute() {
                                 )
                             }} />
 
-                            <Button type="submit">Create Post</Button>
-                        </FieldGroup>
+                            <Button type="submit" disabled={isPending}>{isPending ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    <span>Loading...</span>
+                                </>
+                            ) : (
+                                <span>
+                                    Create Post
+                                </span>
+                            )}</Button>                        </FieldGroup>
 
                     </form>
                 </CardContent>
