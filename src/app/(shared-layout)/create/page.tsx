@@ -16,6 +16,7 @@ import { start } from "repl";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { createBlogAction } from "@/app/action";
 
 export default function CreateRoute() {
 
@@ -34,13 +35,13 @@ export default function CreateRoute() {
 
     function onSubmit(data: z.infer<typeof postSchema>) {
 
-        startTransition(() => {
-            mutation({
-                body: data.content,
-                title: data.title,
-            })
+        startTransition(async () => {
+
+            console.log("this work on the client side")
+
+
             toast.success("Everything is ok")
-            router.push("/")
+            await createBlogAction(data)
         })
 
 
