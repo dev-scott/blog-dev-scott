@@ -37,7 +37,7 @@ export default function BlogPage() {
                             <Link href={`/blog/${post._id}`}>
                                 <h1 className="text-2xl  font-bold hover:text-primary">{post.title}</h1>
                             </Link>
-                            <p className="text-muted-foreground line-clamp-3">
+                            <p className="text-muted-foreground line-clamp-2">
                                 {post.body}
                             </p>
 
