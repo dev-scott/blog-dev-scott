@@ -8,6 +8,9 @@ import { fetchQuery } from "convex/nextjs";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
+export const dynamic = "force-static"
+export const revalidate = 30
+
 export default function BlogPage() {
     return (
         <div className="py-12">
@@ -44,7 +47,7 @@ async function LoadingBlogList() {
 
                     <div className=" relative h-48 w-full overflow-hidden">
 
-                        <Image className="rounded-t-lg" src="https://images.unsplash.com/photo-1761839258605-d1b118266ccc?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="image" fill />
+                        <Image className="rounded-t-lg object-cover" src={post.imageUrl ?? "https://images.unsplash.com/photo-1761839258605-d1b118266ccc?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt="image" fill />
 
                     </div>
 
