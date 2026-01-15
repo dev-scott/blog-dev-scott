@@ -1,5 +1,5 @@
 import { buttonVariants } from "@/components/ui/button";
-import { fetchQuery } from "convex/nextjs";
+import { fetchQuery, preloadQuery } from "convex/nextjs";
 import { ArrowLeftIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +7,7 @@ import { api } from "../../../../../convex/_generated/api";
 import { Id } from "../../../../../convex/_generated/dataModel";
 import { Separator } from "@/components/ui/separator";
 import { CommentSection } from "@/components/web/CommentSection";
+import { PostPresence } from "@/components/web/PostPresence";
 
 interface PostIdRouteProps {
     params: Promise<{
@@ -18,8 +19,19 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
 
     const { postId } = await params;
 
+    const [post, preloadedComments, userId] = await Promise.all(
 
-    const post = await fetchQuery(api.post.getPostById, { postId })
+        [
+
+
+            await fetchQuery(api.post.getPostById, { postId }),
+
+            await preloadQuery(api.comment.getCommentsByPost, { postId }),
+
+            await fetchQuery(api.presence.getUserId),
+
+        ]
+    )
 
     if (!post) {
         return (
@@ -50,9 +62,14 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
                 <h1 className="text-4xl font-bold tracking-tight text-foreground">
                     {post.title}
                 </h1>
-                <p className="mt-2 text-sm text-muted-foreground">
-                    Posted on : {new Date(post._creationTime).toDateString()}
-                </p>
+
+                <div>
+
+                    <p className="mt-2 text-sm text-muted-foreground">
+                        Posted on : {new Date(post._creationTime).toDateString()}
+                    </p>
+                    {userId && <PostPresence roomId={post._id} userId={userId} />}
+                </div>
 
 
             </div>
@@ -62,7 +79,7 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
             </p>
             <Separator className="my-8" />
 
-            <CommentSection />
+            <CommentSection preloadedComments={preloadedComments} />
 
         </div>
     )

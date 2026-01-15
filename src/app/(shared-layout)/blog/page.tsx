@@ -7,9 +7,11 @@ import { buttonVariants } from "@/components/ui/button";
 import { fetchQuery } from "convex/nextjs";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-
+ 
 export const dynamic = "force-static"
 export const revalidate = 30
+
+
 
 export default function BlogPage() {
     return (
