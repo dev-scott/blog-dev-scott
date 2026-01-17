@@ -8,6 +8,8 @@ import { Id } from "../../../../../convex/_generated/dataModel";
 import { Separator } from "@/components/ui/separator";
 import { CommentSection } from "@/components/web/CommentSection";
 import { PostPresence } from "@/components/web/PostPresence";
+import { getToken } from "@/lib/auth-server";
+import { redirect } from "next/navigation";
 
 interface PostIdRouteProps {
     params: Promise<{
@@ -18,6 +20,7 @@ interface PostIdRouteProps {
 export default async function PostIdRoute({ params }: PostIdRouteProps) {
 
     const { postId } = await params;
+    const token = await getToken()
 
     const [post, preloadedComments, userId] = await Promise.all(
 
@@ -28,10 +31,14 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
 
             await preloadQuery(api.comment.getCommentsByPost, { postId }),
 
-            await fetchQuery(api.presence.getUserId),
+            await fetchQuery(api.presence.getUserId, {}, { token }),
 
         ]
     )
+
+    if(!userId){
+        return redirect("/auth/login")
+    }
 
     if (!post) {
         return (
@@ -63,9 +70,9 @@ export default async function PostIdRoute({ params }: PostIdRouteProps) {
                     {post.title}
                 </h1>
 
-                <div>
+                <div className="flex items-center gap-2">
 
-                    <p className="mt-2 text-sm text-muted-foreground">
+                    <p className=" text-sm text-muted-foreground">
                         Posted on : {new Date(post._creationTime).toDateString()}
                     </p>
                     {userId && <PostPresence roomId={post._id} userId={userId} />}
