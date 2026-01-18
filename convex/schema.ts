@@ -18,7 +18,7 @@ export default defineSchema({
         postId:v.id('posts'),
         authorId:v.string(),
         body:v.string(),
-        authorName:v.string()
+        authorName:v.string(),
     }),
 
 })
