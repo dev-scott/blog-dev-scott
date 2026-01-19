@@ -7,6 +7,7 @@ import { useConvexAuth } from "convex/react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { SearchInput } from "./SearchInput";
 
 export default function Navbar() {
 
@@ -31,6 +32,9 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-2">
+                <div className="hidden md:block mr-2">
+                    <SearchInput />
+                </div>
                 {
                     isLoading ? (
                         <div className="w-8 h-8 animate-spin rounded-full border-b-2 border-gray-900"></div>
