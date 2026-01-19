@@ -15,6 +15,11 @@ const nextConfig: NextConfig = {
         hostname: "next-puma-338.convex.cloud",
         port: '',
       },
+      {
+        protocol: "https",
+        hostname: "quiet-swan-312.convex.cloud",
+        port: '',
+      },
     ],
   }
 };
