@@ -7,7 +7,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { fetchQuery } from "convex/nextjs";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
- 
+import { Separator } from "@/components/ui/separator";
+
 export const dynamic = "force-static"
 export const revalidate = 30
 
@@ -16,15 +17,16 @@ export const revalidate = 30
 export default function BlogPage() {
     return (
         <div className="py-12">
-            <div className="text-center pb-12">
-                <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+            <div className="text-left pb-10">
+                <h1 className=" text-xl font-extrabold tracking-tight ">
                     Our Blog
                 </h1>
-                <p className="mt-4 max-w-2xl mx-auto text-xl text-muted-foreground">
+                <p className="mt-4 max-w-3xl  font-bold text-5xl  text-muted-foreground">
                     Insights , thoughts , and trend from our team.
                 </p>
 
             </div>
+            <Separator className="w-full mb-10" />
             <Suspense fallback={
                 <SkeletonLoadingUi />
             }>

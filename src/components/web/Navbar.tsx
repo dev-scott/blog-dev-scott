@@ -20,13 +20,13 @@ export default function Navbar() {
 
             <div className="flex items-center gap-8">
                 <Link href="/">
-                    <h1 className="text-3xl font-bold ">Next<span className="text-primary">Pro</span></h1>
+                    <h1 className="text-3xl font-bold ">Dev.<span className="text-primary">Scott</span></h1>
                 </Link>
                 <div className="flex items-center gap-2">
 
-                    <Link href="/" className={buttonVariants({ variant: "ghost" })}>Home</Link>
-                    <Link href="/blog" className={buttonVariants({ variant: "ghost" })}>Blog</Link>
-                    <Link href="/create" className={buttonVariants({ variant: "ghost" })}>Create</Link>
+                    {/* <Link href="/" className={buttonVariants({ variant: "ghost" })}>Home</Link> */}
+                    <Link href="/blog" className={buttonVariants({ variant: "outline" })}>The blog</Link>
+                    <Link href="/create" className={buttonVariants({ variant: "outline" })}>Create a blog</Link>
 
                 </div>
             </div>

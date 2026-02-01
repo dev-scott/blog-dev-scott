@@ -41,7 +41,7 @@ export default function CreateRoute() {
             console.log("this work on the client side")
 
 
-            toast.success("Everything is ok")
+            toast.success("Everything is ok ...")
             await createBlogAction(data)
         })
 
