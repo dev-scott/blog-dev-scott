@@ -38,7 +38,6 @@ export default function CreateRoute() {
 
         startTransition(async () => {
 
-            console.log("this work on the client side")
 
 
             toast.success("Everything is ok ...")
