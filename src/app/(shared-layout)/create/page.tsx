@@ -41,6 +41,7 @@ export default function CreateRoute() {
 
 
             toast.success("Everything is ok ...")
+            // submit function
             await createBlogAction(data)
         })
 
