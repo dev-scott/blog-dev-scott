@@ -22,7 +22,7 @@ export default function BlogPage() {
                     Our Blog
                 </h1>
                 <p className="mt-4 max-w-3xl  font-bold text-5xl  text-muted-foreground">
-                    Insights , thoughts , and trend from our team.
+                    Insights , thoughts.. , and trend from our team.
                 </p>
 
             </div>
